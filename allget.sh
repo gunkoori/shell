@@ -3,22 +3,24 @@
 ###############
 #Directory作成
 ###############
+BASEPATH=$(pwd)
 DATE=`date +'%Y%m%d'`
 #ディレクトリが無いときは作成する
-if [ ! -d "$DATE" ]; then
-    cd crawl_data
-    mkdir $DATE
-    cd $DATE
+if [ ! -d "$BASEPATH/crawl_data" ]; then
+    mkdir $BASEPATH/crawl_data
+    mkdir $BASEPATH/crawl_data/$DATE
+    cd $BASEPATH/crawl_data/$DATE
 fi
 
 #paginationの最大数取得
-PAGINATION_NUMBER=(`curl http://aucfan.com/article/ | grep "page-number num" | grep -o "paged=.*" | grep -o ">.*" | grep -o ".*</a" | sed -e s'/^>//' | sed -e s'/<\/a$//'`)
-MAX_PAGINATION_NUMBER=${PAGINATION_NUMBER[`expr ${#PAGINATION_NUMBER[@]} - 1`]}
+PAGE_NUMBER=(`curl http://aucfan.com/article/ | grep "page-number num" | grep -o "paged=.*" | grep -o ">.*" | grep -o ".*</a" | sed -e s'/^>//' | sed -e s'/<\/a$//'`)
+MAX_PAGE_NUMBER=${PAGE_NUMBER[`expr ${#PAGE_NUMBER[@]} - 1`]}
 i=1
-while [ $i -lt $MAX_PAGINATION_NUMBER ]
+while [ $i -lt $MAX_PAGE_NUMBER ]
 do
-    echo $i
+    echo $iページ目
     #オクトピの記事リンク
-    AUCTOPI_LINK=`curl http://aucfan.com/article/?paged=$i | grep "box_link" | grep -o "http://.*" | grep -o ".*\"" | grep -o ".*/" >> auctopi_link.txt` 
+    curl http://aucfan.com/article/?paged=$i | grep "box_link" | grep -o "http://.*" | grep -o ".*\"" | grep -o ".*/" >> auctopi_link.txt
+    sleep 1s
     i=`expr $i + 1`
 done;

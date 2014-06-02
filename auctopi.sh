@@ -14,10 +14,10 @@ do
 echo ${PUBDATE[@]}
     #ディレクトリがないときは作成
     if [ ! -d "$BASEPATH/tsv_data/$PUBDATE" ]; then
-        if [ ! -d "$BASEPATH/tsv_data" ]; then
-            mkdir $BASEPATH/tsv_data
-        fi
-        mkdir $BASEPATH/tsv_data/$PUBDATE
+       # if [ ! -d "$BASEPATH/tsv_data" ]; then
+       #     mkdir  $BASEPATH/tsv_data
+       # fi
+        mkdir -p $BASEPATH/tsv_data/$PUBDATE
     fi
 
     #エンターのみを区切り文字として認識させる↲

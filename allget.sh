@@ -7,8 +7,8 @@ BASEPATH=$(pwd)
 DATE=`date +'%Y%m%d'`
 #ディレクトリが無いときは作成する
 if [ ! -d "$BASEPATH/crawl_data" ]; then
-    mkdir $BASEPATH/crawl_data
-    mkdir $BASEPATH/crawl_data/$DATE
+   # mkdir $BASEPATH/crawl_data
+    mkdir -p $BASEPATH/crawl_data/$DATE
     cd $BASEPATH/crawl_data/$DATE
 fi
 
@@ -20,7 +20,7 @@ while [ $i -lt $MAX_PAGE_NUMBER ]
 do
     echo $iページ目
     #オクトピの記事リンク
-    curl http://aucfan.com/article/?paged=$i | grep "box_link" | grep -o "http://.*" | grep -o ".*\"" | grep -o ".*/" >> auctopi_link.txt
+    curl http://aucfan.com/article/?paged=$i | grep "box_link" | grep -o "http://.*" | grep -o ".*\"" | grep -o ".*/" > auctopi_link.txt
     sleep 1s
     i=`expr $i + 1`
 done;

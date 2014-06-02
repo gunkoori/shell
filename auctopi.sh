@@ -28,7 +28,7 @@ echo ${PUBDATE[@]}
     TITLE=`curl $line | grep "\<h1\>.*" | sed -e 's/<[^>]*>//g' | sed -e 's/^\s*//g'`
 
     #書き出し
-    echo -e $PUBDATE\\t$TITLE\\t$line >> $BASEPATH/tsv_data/$PUBDATE/$PUBDATE.tsv
+    echo -e $PUBDATE\\t$TITLE\\t$line > $BASEPATH/tsv_data/$PUBDATE/$PUBDATE.tsv
 
 done<$FILE
 IFS=$PRE_IFS

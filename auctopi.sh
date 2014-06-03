@@ -27,9 +27,14 @@ echo ${PUBDATE[@]}
     #タイトルを配列で取得
     TITLE=`curl $line | grep "\<h1\>.*" | sed -e 's/<[^>]*>//g' | sed -e 's/^\s*//g'`
 
-    #書き出し
-    echo -e $PUBDATE\\t$TITLE\\t$line > $BASEPATH/tsv_data/$PUBDATE/$PUBDATE.tsv
+    PARAMETER=`curl  $line | grep 'canonical' | grep -o 'href="http://aucfan.com/article/.*' | grep -o 'article\/.*' | grep -o '.*\/\"' | sed -e 's/^article\///' | sed -e  's/\/\"//'`
 
+    #書き出し
+    if [ ! -f "$BASEPATH/tsv_data/$PUBDATE/$PARAMETER.tsv" ]; then
+        echo -e $PUBDATE\\t$TITLE\\t$line >> $BASEPATH/tsv_data/$PUBDATE/$PARAMETER.tsv
+    else
+        echo 'すでにtsv形式で保存してあるデータです'
+    fi
 done<$FILE
 IFS=$PRE_IFS
 

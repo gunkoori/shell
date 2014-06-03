@@ -19,7 +19,7 @@ while [ $i -le $PAGE_NUMBER ]
 do
     echo $iページ目
     #オクトピの記事リンク
-    curl http://aucfan.com/article/?paged=$i | grep "box_link" | grep -o "http://.*" | grep -o ".*\"" | grep -o ".*/" >> $BASEPATH/crawl_data/auctopi_link.txt
+    curl http://aucfan.com/article/?paged=$i | grep "box_link" | grep -o "http://.*" | grep -o ".*\"" | grep -o ".*/" >> $BASEPATH/crawl_data/$DATE/auctopi_link.txt
     sleep 1s
     i=`expr $i + 1`
 done;
